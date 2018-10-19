@@ -15,9 +15,10 @@ import com.rpgapp.devapp.rpgapp.DataAccessManager.AdventureRequestManager;
 import com.rpgapp.devapp.rpgapp.Model.Adventure;
 import com.rpgapp.devapp.rpgapp.R;
 import com.rpgapp.devapp.rpgapp.Screens.Adventures.AdventuresFragment;
+import com.rpgapp.devapp.rpgapp.Utils.BackableFragment;
 
 
-public class AddAdventureFragment extends Fragment implements AdventureRequestManager.OnAdventureAdded {
+public class AddAdventureFragment extends Fragment implements AdventureRequestManager.OnAdventureAdded, BackableFragment {
 
 
     private OnFragmentInteractionListener mListener;
@@ -81,6 +82,14 @@ public class AddAdventureFragment extends Fragment implements AdventureRequestMa
 
     @Override
     public void onAdded() {
+        mManager = getFragmentManager();
+        mManager.beginTransaction().
+                replace(R.id.container, AdventuresFragment.newInstance()).
+                commit();
+    }
+
+    @Override
+    public void onBack() {
         mManager = getFragmentManager();
         mManager.beginTransaction().
                 replace(R.id.container, AdventuresFragment.newInstance()).

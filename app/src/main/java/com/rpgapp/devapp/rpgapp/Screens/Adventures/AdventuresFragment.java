@@ -12,21 +12,12 @@ import android.view.ViewGroup;
 
 import com.rpgapp.devapp.rpgapp.Model.Adventure;
 import com.rpgapp.devapp.rpgapp.R;
+import com.rpgapp.devapp.rpgapp.Utils.BackableFragment;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
- */
-public class AdventuresFragment extends Fragment {
+public class AdventuresFragment extends Fragment implements BackableFragment {
 
     private OnListFragmentInteractionListener mListener;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public AdventuresFragment() {
     }
 
@@ -75,6 +66,11 @@ public class AdventuresFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onBack() {
+
     }
 
     /**

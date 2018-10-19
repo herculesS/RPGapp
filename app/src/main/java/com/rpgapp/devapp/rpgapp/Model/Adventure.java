@@ -1,12 +1,16 @@
 package com.rpgapp.devapp.rpgapp.Model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
 /**
  *
  * */
-public class Adventure {
+public class Adventure implements Serializable {
     private String mId;
     private String mTitle;
     private String mDescription;
+    private ArrayList<Session> mSessions;
 
     public String getTitle() {
         return mTitle;
@@ -30,5 +34,26 @@ public class Adventure {
 
     public void setId(String id) {
         mId = id;
+    }
+
+    public ArrayList<Session> getSessions() {
+        return mSessions;
+    }
+
+    public void setSessions(ArrayList<Session> sessions) {
+        mSessions = sessions;
+    }
+
+    public void addSession(Session se) {
+        if (mSessions == null) {
+            mSessions = new ArrayList<>();
+        }
+        mSessions.add(se);
+    }
+
+    public void removeSession(Session se) {
+        if (mSessions != null) {
+            mSessions.remove(se);
+        }
     }
 }

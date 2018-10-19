@@ -19,11 +19,17 @@ import android.widget.PopupMenu;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.rpgapp.devapp.rpgapp.Model.Adventure;
 import com.rpgapp.devapp.rpgapp.Screens.AddAdventure.AddAdventureFragment;
-import com.rpgapp.devapp.rpgapp.Screens.Adventures.AdventuresFBonClick;
+import com.rpgapp.devapp.rpgapp.Screens.AdventureDetails.AdventureDetailsFragment;
+import com.rpgapp.devapp.rpgapp.Screens.AdventureDetails.ProgressTabBtnOnClick;
+import com.rpgapp.devapp.rpgapp.Screens.Adventures.AdventuresBtnOnClick;
 import com.rpgapp.devapp.rpgapp.Screens.Adventures.AdventuresFragment;
+import com.rpgapp.devapp.rpgapp.Utils.BackableFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, AdventuresFragment.OnListFragmentInteractionListener, AddAdventureFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        AdventuresFragment.OnListFragmentInteractionListener,
+        AddAdventureFragment.OnFragmentInteractionListener,
+        AdventureDetailsFragment.OnFragmentInteractionListener {
     private DrawerLayout mDrawer;
     private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar mToolbar;
@@ -66,7 +72,7 @@ public class MainActivity extends AppCompatActivity
 
 
         mFab = findViewById(R.id.fab);
-        mFab.setOnClickListener(new AdventuresFBonClick(mFab, this));
+        mFab.setOnClickListener(new AdventuresBtnOnClick(mFab, this));
 
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(
@@ -95,11 +101,23 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            Fragment f = getSupportFragmentManager().findFragmentById(R.id.container);
+            BackableFragment bf;
+            if (f != null) {
+                bf = (BackableFragment) f;
+                if (f instanceof AdventuresFragment) {
+                    super.onBackPressed();
+                } else {
+                    bf.onBack();
+                }
+            } else {
+                super.onBackPressed();
+            }
+
+
         }
     }
 
-    
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -143,7 +161,12 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onListFragmentInteraction(Adventure item) {
-
+        mFab.setOnClickListener(new ProgressTabBtnOnClick(mFab, this));
+        AdventureDetailsFragment fragment = AdventureDetailsFragment.newInstance(item);
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, fragment).
+                commit();
     }
 
     @Override
@@ -153,6 +176,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onFragmentInteraction(Uri uri) {
-        
+
     }
 }

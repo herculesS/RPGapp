@@ -9,12 +9,12 @@ import android.widget.ImageView;
 import com.rpgapp.devapp.rpgapp.R;
 import com.rpgapp.devapp.rpgapp.Screens.AddAdventure.AddAdventureFragment;
 
-public class AdventuresFBonClick implements View.OnClickListener {
+public class AdventuresBtnOnClick implements View.OnClickListener {
     private final FragmentManager mManager;
     private ImageView mFloatingActionButton;
     private AppCompatActivity mActivity;
 
-    public AdventuresFBonClick(ImageView imageButton, AppCompatActivity activity) {
+    public AdventuresBtnOnClick(ImageView imageButton, AppCompatActivity activity) {
         mActivity = activity;
         mManager = mActivity.getSupportFragmentManager();
         mFloatingActionButton = imageButton;
