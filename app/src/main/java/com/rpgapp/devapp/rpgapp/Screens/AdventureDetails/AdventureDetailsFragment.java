@@ -7,11 +7,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rpgapp.devapp.rpgapp.Model.Adventure;
 import com.rpgapp.devapp.rpgapp.R;
+import com.rpgapp.devapp.rpgapp.Screens.AddSession.AddSessionFragment;
 import com.rpgapp.devapp.rpgapp.Screens.AdventureDetails.ProgressTab.ProgressTabFragment;
 import com.rpgapp.devapp.rpgapp.Screens.Adventures.AdventuresFragment;
 import com.rpgapp.devapp.rpgapp.Utils.BackableFragment;
@@ -24,6 +25,7 @@ public class AdventureDetailsFragment extends Fragment implements BackableFragme
 
     private OnFragmentInteractionListener mListener;
     private TextView mAdventureTitleTextView;
+    private ImageView mBtnAddSession;
 
     public AdventureDetailsFragment() {
         // Required empty public constructor
@@ -52,6 +54,15 @@ public class AdventureDetailsFragment extends Fragment implements BackableFragme
        View view = inflater.inflate(R.layout.fragment_adventure_details, container, false);;
         mAdventureTitleTextView = view.findViewById(R.id.adventure_progress_adventure_title);
         mAdventureTitleTextView.setText(mAdventure.getTitle());
+
+        mBtnAddSession = view.findViewById(R.id.adventure_progress_btn_add_session);
+        mBtnAddSession.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddSessionFragment fragment = AddSessionFragment.newInstance(mAdventure);
+                getFragmentManager().beginTransaction().replace(R.id.container,fragment).commit();
+            }
+        });
 
         ProgressTabFragment fragment = ProgressTabFragment.newInstance(mAdventure);
         getFragmentManager().beginTransaction().replace(R.id.adventure_players_container,fragment).commit();

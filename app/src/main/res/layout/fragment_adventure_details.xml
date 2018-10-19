@@ -108,6 +108,15 @@
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/adventure_progress_btn_add_session"
+        android:layout_width="78dp"
+        android:layout_height="78dp"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        app:srcCompat="@drawable/btn_add_session"/>
+
+
+    <ImageView
         android:id="@+id/adventure_progress_btn_edit"
         android:layout_width="78dp"
         android:layout_height="77dp"

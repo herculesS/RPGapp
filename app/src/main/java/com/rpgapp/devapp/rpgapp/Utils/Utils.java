@@ -11,4 +11,18 @@ public class Utils {
 
         return day + "/" + month;
     }
+
+    public static String formatSessionDateToDayMonth(String date) {
+        String[] s = date.split("/");
+        if (s[0].length() == 1) {
+            s[0] = 0 + s[0];
+        }
+        s[1] = String.valueOf(Integer.parseInt(s[1]) + 1);
+        if (s[1].length() == 1) {
+            s[1] = 0 + s[1];
+        }
+
+
+        return s[0] + "/" + s[1];
+    }
 }

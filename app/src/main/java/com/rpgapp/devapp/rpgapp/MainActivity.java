@@ -107,7 +107,11 @@ public class MainActivity extends AppCompatActivity
                 bf = (BackableFragment) f;
                 if (f instanceof AdventuresFragment) {
                     super.onBackPressed();
-                } else {
+                } else if (f instanceof AdventureDetailsFragment){
+                    mFab.setVisibility(View.VISIBLE);
+                    bf.onBack();
+                }
+                else {
                     bf.onBack();
                 }
             } else {
@@ -161,7 +165,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onListFragmentInteraction(Adventure item) {
-        mFab.setOnClickListener(new ProgressTabBtnOnClick(mFab, this));
+        mFab.setVisibility(View.GONE);
         AdventureDetailsFragment fragment = AdventureDetailsFragment.newInstance(item);
         getSupportFragmentManager().
                 beginTransaction().

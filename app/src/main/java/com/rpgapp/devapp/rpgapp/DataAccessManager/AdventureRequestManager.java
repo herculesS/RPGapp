@@ -10,6 +10,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.rpgapp.devapp.rpgapp.Model.Adventure;
+import com.rpgapp.devapp.rpgapp.Model.Session;
 
 import java.util.ArrayList;
 
@@ -21,6 +22,23 @@ public class AdventureRequestManager {
 
     public interface OnAdventureAdded {
         void onAdded();
+    }
+
+    public interface onSaveAdventure {
+        void onSaved();
+    }
+
+    static public void saveAdventure(Adventure ad, final onSaveAdventure callback) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("adventures").
+                document(ad.getId()).
+                set(ad).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                callback.onSaved();
+            }
+        });
+
     }
 
     static public void addAdventure(Adventure ad, final OnAdventureAdded callback) {

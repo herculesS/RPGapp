@@ -14,6 +14,7 @@ public class ProgressTabBtnOnClick implements View.OnClickListener {
 
     public ProgressTabBtnOnClick(ImageView btn, AppCompatActivity activity) {
         mBtn = btn;
+        mBtn.setVisibility(View.GONE);
         mActivity = activity;
         mManager = mActivity.getSupportFragmentManager();
         mBtn.setImageResource(R.drawable.btn_add_session);
