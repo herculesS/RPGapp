@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "596544882509",
+    "firebase_url": "https://devapp-6afc7.firebaseio.com",
+    "project_id": "devapp-6afc7",
+    "storage_bucket": "devapp-6afc7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:596544882509:android:afdc3c1ad5233e07",
+        "android_client_info": {
+          "package_name": "com.rpgapp.devapp.rpgapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "596544882509-tbp9dfvhkro1n4fj1mn8meuf0p1itl7l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rpgapp.devapp.rpgapp",
+            "certificate_hash": "934ed28f06562c0abe7f7b4fb209257f2fad41b2"
+          }
+        },
+        {
+          "client_id": "596544882509-rpgnei4471faf19rs4kn1lm62n7hdmcl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFBQ-1tqmPDtkn0Q2UCaM7zdSJCoeFW7Q"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "596544882509-rpgnei4471faf19rs4kn1lm62n7hdmcl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,8 +1,8 @@
 package com.rpgapp.devapp.rpgapp;
 
+import android.net.Uri;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.Gravity;
 import android.view.MenuInflater;
 import android.view.View;
@@ -12,17 +12,24 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.rpgapp.devapp.rpgapp.Model.Adventure;
+import com.rpgapp.devapp.rpgapp.Screens.AddAdventure.AddAdventureFragment;
+import com.rpgapp.devapp.rpgapp.Screens.Adventures.AdventuresFBonClick;
+import com.rpgapp.devapp.rpgapp.Screens.Adventures.AdventuresFragment;
+
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, AdventuresFragment.OnListFragmentInteractionListener, AddAdventureFragment.OnFragmentInteractionListener {
     private DrawerLayout mDrawer;
     private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar mToolbar;
     private ImageView mDotMenuBtn;
+    private ImageView mOpenDrawerBtn;
+    private ImageView mFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +47,8 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        ImageView openDrawerBtn = findViewById(R.id.drawer_togle);
-        openDrawerBtn.setOnClickListener(new View.OnClickListener() {
+        mOpenDrawerBtn = findViewById(R.id.drawer_togle);
+        mOpenDrawerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!mDrawer.isDrawerOpen(GravityCompat.START)) {
@@ -58,14 +65,8 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setDisplayShowHomeEnabled(false);
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        mFab = findViewById(R.id.fab);
+        mFab.setOnClickListener(new AdventuresFBonClick(mFab, this));
 
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(
@@ -76,6 +77,16 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        Fragment fragment = AdventuresFragment.newInstance();
+        int commit;
+        commit = getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, fragment).
+                commit();
+
     }
 
     @Override
@@ -88,12 +99,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
+    
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -133,5 +139,20 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onListFragmentInteraction(Adventure item) {
+
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        
     }
 }
