@@ -6,6 +6,11 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:actionOverflowButtonStyle">@style/MyActionButtonOverflow</item>
+    </style>
+
+    <style name="MyActionButtonOverflow" parent="android:style/Widget.Holo.ActionButton.Overflow">
+        <item name="android:src">@drawable/side_nav_bar</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -16,5 +21,23 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="TextInputStyleLogin">
+        <item name="android:textColor">@color/primaryTextColor</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColorHint">@color/primaryTextColor</item>
+        <item name="colorControlNormal">@color/primaryTextColor</item>
+        <item name="colorControlActivated">@color/primaryTextColor</item>
+        <item name="colorControlHighlight">@color/primaryTextColor</item>
+    </style>
+
+    <style name="TextInputStyleSignup">
+        <item name="android:textColor">@color/text_color_1</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColorHint">@color/text_color_1</item>
+        <item name="colorControlNormal">@color/text_color_1</item>
+        <item name="colorControlActivated">@color/text_color_1</item>
+        <item name="colorControlHighlight">@color/text_color_1</item>
+    </style>
 
 </resources>

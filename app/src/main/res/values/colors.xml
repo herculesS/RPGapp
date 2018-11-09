@@ -3,4 +3,25 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorToolBarBg">#221133</color>
+    <color name="primaryColor">#271836</color>
+    <color name="primaryLightColor">#503f60</color>
+    <color name="primaryDarkColor">#000011</color>
+    <color name="secondaryColor">#f6d181</color>
+    <color name="secondaryLightColor">#ffffb2</color>
+    <color name="secondaryDarkColor">#c1a053</color>
+    <color name="primaryTextColor">#ffffff</color>
+    <color name="secondaryTextColor">#000000</color>
+    <color name="accentColor">#E33A51</color>
+    <color name="lightBlue">#06E2BA</color>
+    <color name="blue2">#204152</color>
+    <color name="gray2">#E2E2E1</color>
+    <color name="text_color_1">#666666</color>
+    <color name="CreationLabelBlue">#00e2ba</color>
+    <color name="CreationLabelGray">#877D91</color>
+    <color name="CreationLabelBlack">#000000</color>
+    <color name="AdventureProgressBg">#e2e2e1</color>
+    <color name="CreationBg">#e2e2e0</color>
+    <color name="blankBackground">#201D25</color>
+    <color name="textColorGray">#DFDCDC</color>
 </resources>
