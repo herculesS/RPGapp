@@ -126,7 +126,7 @@ public class EditFragment extends Fragment implements AdventureRequestManager.On
 
     @Override
     public void onSaved() {
-        AdventureDetailsFragment fragment = AdventureDetailsFragment.newInstance(mAdventure);
+        AdventureDetailsFragment fragment = AdventureDetailsFragment.newInstance(mAdventure, AdventureDetailsFragment.PROGRESS_FRAG);
         getFragmentManager().
                 beginTransaction().
                 replace(R.id.container, fragment).

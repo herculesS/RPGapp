@@ -1,5 +1,6 @@
 package com.rpgapp.devapp.rpgapp;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -16,31 +17,40 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.rpgapp.devapp.rpgapp.Model.Adventure;
+import com.rpgapp.devapp.rpgapp.Model.User;
 import com.rpgapp.devapp.rpgapp.Screens.AddAdventure.AddAdventureFragment;
 import com.rpgapp.devapp.rpgapp.Screens.AdventureDetails.AdventureDetailsFragment;
-import com.rpgapp.devapp.rpgapp.Screens.AdventureDetails.ProgressTabBtnOnClick;
 import com.rpgapp.devapp.rpgapp.Screens.Adventures.AdventuresBtnOnClick;
 import com.rpgapp.devapp.rpgapp.Screens.Adventures.AdventuresFragment;
+import com.rpgapp.devapp.rpgapp.Screens.Auth.Login;
 import com.rpgapp.devapp.rpgapp.Utils.BackableFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         AdventuresFragment.OnListFragmentInteractionListener,
         AddAdventureFragment.OnFragmentInteractionListener,
-        AdventureDetailsFragment.OnFragmentInteractionListener {
+        AdventureDetailsFragment.OnFragmentInteractionListener
+{
     private DrawerLayout mDrawer;
     private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar mToolbar;
     private ImageView mDotMenuBtn;
     private ImageView mOpenDrawerBtn;
     private ImageView mFab;
+    private User mCurrentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
+        mCurrentUser = (User) intent.getSerializableExtra("userProfile");
+
+
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mDotMenuBtn = findViewById(R.id.menu_dots);
         mDotMenuBtn.setOnClickListener(new View.OnClickListener() {
@@ -144,18 +154,22 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_adventures) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_books) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_account) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_notifications) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_config) {
 
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_logout) {
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+            mAuth.signOut();
+            Intent intent = new Intent(this, Login.class);
+            startActivity(intent);
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -166,7 +180,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onListFragmentInteraction(Adventure item) {
         mFab.setVisibility(View.GONE);
-        AdventureDetailsFragment fragment = AdventureDetailsFragment.newInstance(item);
+        AdventureDetailsFragment fragment = AdventureDetailsFragment.newInstance(item, AdventureDetailsFragment.PROGRESS_FRAG);
         getSupportFragmentManager().
                 beginTransaction().
                 replace(R.id.container, fragment).
@@ -181,5 +195,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    public User getCurrentUser() {
+        return mCurrentUser;
     }
 }

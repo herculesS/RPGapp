@@ -24,4 +24,6 @@
     <color name="CreationBg">#e2e2e0</color>
     <color name="blankBackground">#201D25</color>
     <color name="textColorGray">#DFDCDC</color>
+    <color name="splashBG">#919191</color>
+    <color name="yellow">#f8de7e</color>
 </resources>
