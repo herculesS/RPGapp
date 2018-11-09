@@ -7,7 +7,7 @@
     tools:context=".Screens.AddAdventure.AddAdventureFragment">
 
     <TextView
-        android:id="@+id/create_text"
+        android:id="@+id/edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="200dp"
@@ -44,12 +44,12 @@
         android:id="@+id/create_adventure_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="200dp"
+        android:layout_marginEnd="100dp"
         android:text="@string/d_um_nome_a_aventura"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.347"
+        app:layout_constraintHorizontal_bias="0.31"
         app:layout_constraintStart_toEndOf="@+id/close_btn"
-        app:layout_constraintTop_toBottomOf="@+id/create_text" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_text" />
 
     <EditText
         android:id="@+id/adventure_name"

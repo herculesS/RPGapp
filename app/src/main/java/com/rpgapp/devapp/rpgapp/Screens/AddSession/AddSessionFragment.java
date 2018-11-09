@@ -12,7 +12,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.rpgapp.devapp.rpgapp.DataAccessManager.AdventureRequestManager;
+import com.rpgapp.devapp.rpgapp.DataAccessManager.AdventureRequests.AdventureRequestManager;
 import com.rpgapp.devapp.rpgapp.Model.Adventure;
 import com.rpgapp.devapp.rpgapp.Model.Session;
 import com.rpgapp.devapp.rpgapp.R;
@@ -23,7 +23,7 @@ import com.rpgapp.devapp.rpgapp.Utils.Utils;
 import java.util.Calendar;
 
 
-public class AddSessionFragment extends Fragment implements AdventureRequestManager.onSaveAdventure, BackableFragment{
+public class AddSessionFragment extends Fragment implements AdventureRequestManager.OnSaveAdventure, BackableFragment{
     private static final String ADVENTURE = "param1";
 
     // TODO: Rename and change types of parameters

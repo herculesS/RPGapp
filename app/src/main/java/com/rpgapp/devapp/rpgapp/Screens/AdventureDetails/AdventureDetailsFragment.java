@@ -15,22 +15,40 @@ import com.rpgapp.devapp.rpgapp.R;
 import com.rpgapp.devapp.rpgapp.Screens.AddSession.AddSessionFragment;
 import com.rpgapp.devapp.rpgapp.Screens.AdventureDetails.ProgressTab.ProgressTabFragment;
 import com.rpgapp.devapp.rpgapp.Screens.Adventures.AdventuresFragment;
+import com.rpgapp.devapp.rpgapp.Screens.Edit.EditFragment;
+import com.rpgapp.devapp.rpgapp.Screens.Edit.EditIntent.EditAdventureTitleIntent;
 import com.rpgapp.devapp.rpgapp.Utils.BackableFragment;
 
+/**
+ * Fragment that displays the information of a adventure
+ * @author hercules
+ */
 public class AdventureDetailsFragment extends Fragment implements BackableFragment {
+    /**
+     * Key to save/retrieve adventure information
+     */
     private static final String ADVENTURE_ID = "adventure_id";
-
-    // TODO: Rename and change types of parameters
+    /**
+     * Adventure to be displayed
+     */
     private Adventure mAdventure;
-
+    /**
+     * Listener of the fragement/activity that contains this fragment for interactions
+     */
     private OnFragmentInteractionListener mListener;
-    private TextView mAdventureTitleTextView;
-    private ImageView mBtnAddSession;
+
+    private TextView mAdventureTitleView;
+    private ImageView mAddSessionBTN;
 
     public AdventureDetailsFragment() {
         // Required empty public constructor
     }
 
+    /**
+     * Create new instance of the fragment for the adventure passed.
+     * @param adventure the adventure to be displayed
+     * @return fragment with the detailed information of the adventure
+     */
     public static AdventureDetailsFragment newInstance(Adventure adventure) {
         AdventureDetailsFragment fragment = new AdventureDetailsFragment();
         Bundle args = new Bundle();
@@ -43,31 +61,52 @@ public class AdventureDetailsFragment extends Fragment implements BackableFragme
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mAdventure = (Adventure)getArguments().getSerializable(ADVENTURE_ID);
+            mAdventure = (Adventure) getArguments().getSerializable(ADVENTURE_ID);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        
-       View view = inflater.inflate(R.layout.fragment_adventure_details, container, false);;
-        mAdventureTitleTextView = view.findViewById(R.id.adventure_progress_adventure_title);
-        mAdventureTitleTextView.setText(mAdventure.getTitle());
 
-        mBtnAddSession = view.findViewById(R.id.adventure_progress_btn_add_session);
-        mBtnAddSession.setOnClickListener(new View.OnClickListener() {
+        View view = inflater.inflate(R.layout.fragment_adventure_details, container, false);
+
+        setViewElements(view);
+        setFragments();
+
+        return view;
+    }
+
+    private void setFragments() {
+        ProgressTabFragment fragment = ProgressTabFragment.newInstance(mAdventure);
+        getFragmentManager().beginTransaction().replace(R.id.adventure_players_container, fragment).commit();
+    }
+
+    private void setViewElements(View view) {
+        mAdventureTitleView = view.findViewById(R.id.adventure_progress_adventure_title);
+        mAddSessionBTN = view.findViewById(R.id.adventure_progress_btn_add_session);
+
+        mAdventureTitleView.setText(mAdventure.getTitle());
+
+        mAdventureTitleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddSessionFragment fragment = AddSessionFragment.newInstance(mAdventure);
-                getFragmentManager().beginTransaction().replace(R.id.container,fragment).commit();
+                EditFragment fragment = EditFragment.newInstance(new EditAdventureTitleIntent(mAdventure));
+                getFragmentManager().
+                        beginTransaction().
+                        replace(R.id.container, fragment).
+                        commit();
             }
         });
 
-        ProgressTabFragment fragment = ProgressTabFragment.newInstance(mAdventure);
-        getFragmentManager().beginTransaction().replace(R.id.adventure_players_container,fragment).commit();
 
-        return view;
+        mAddSessionBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddSessionFragment fragment = AddSessionFragment.newInstance(mAdventure);
+                getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+            }
+        });
     }
 
     public void onButtonPressed(Uri uri) {
@@ -97,7 +136,7 @@ public class AdventureDetailsFragment extends Fragment implements BackableFragme
     public void onBack() {
         getFragmentManager().
                 beginTransaction().
-                replace(R.id.container,new AdventuresFragment()).
+                replace(R.id.container, new AdventuresFragment()).
                 commit();
     }
 

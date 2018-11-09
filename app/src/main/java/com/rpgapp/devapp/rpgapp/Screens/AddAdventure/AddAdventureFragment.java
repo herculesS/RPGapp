@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.rpgapp.devapp.rpgapp.DataAccessManager.AdventureRequestManager;
+import com.rpgapp.devapp.rpgapp.DataAccessManager.AdventureRequests.AdventureRequestManager;
 import com.rpgapp.devapp.rpgapp.Model.Adventure;
 import com.rpgapp.devapp.rpgapp.R;
 import com.rpgapp.devapp.rpgapp.Screens.Adventures.AdventuresFragment;

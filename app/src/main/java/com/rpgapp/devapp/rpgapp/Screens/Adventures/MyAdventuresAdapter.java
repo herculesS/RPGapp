@@ -9,7 +9,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.rpgapp.devapp.rpgapp.DataAccessManager.AdventureRequestManager;
+import com.rpgapp.devapp.rpgapp.DataAccessManager.AdventureRequests.AdventureRequestManager;
 import com.rpgapp.devapp.rpgapp.Model.Adventure;
 import com.rpgapp.devapp.rpgapp.Screens.Adventures.AdventuresFragment.OnListFragmentInteractionListener;
 import com.rpgapp.devapp.rpgapp.R;

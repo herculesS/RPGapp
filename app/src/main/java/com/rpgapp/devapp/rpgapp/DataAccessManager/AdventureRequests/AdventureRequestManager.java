@@ -1,6 +1,7 @@
-package com.rpgapp.devapp.rpgapp.DataAccessManager;
+package com.rpgapp.devapp.rpgapp.DataAccessManager.AdventureRequests;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -10,7 +11,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.rpgapp.devapp.rpgapp.Model.Adventure;
-import com.rpgapp.devapp.rpgapp.Model.Session;
 
 import java.util.ArrayList;
 
@@ -24,17 +24,21 @@ public class AdventureRequestManager {
         void onAdded();
     }
 
-    public interface onSaveAdventure {
+    public interface OnSaveAdventure {
         void onSaved();
     }
 
-    static public void saveAdventure(Adventure ad, final onSaveAdventure callback) {
+    static public void saveAdventure(Adventure ad, final OnSaveAdventure callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        Log.d("issue", "save");
         db.collection("adventures").
                 document(ad.getId()).
                 set(ad).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
+
+                Log.d("issue", "saved");
                 callback.onSaved();
             }
         });

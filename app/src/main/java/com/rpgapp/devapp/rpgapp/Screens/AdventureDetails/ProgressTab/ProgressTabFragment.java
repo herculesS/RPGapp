@@ -14,6 +14,9 @@ import android.widget.TextView;
 import com.rpgapp.devapp.rpgapp.Model.Adventure;
 import com.rpgapp.devapp.rpgapp.R;
 import com.rpgapp.devapp.rpgapp.Screens.Adventures.MyAdventuresAdapter;
+import com.rpgapp.devapp.rpgapp.Screens.Edit.EditFragment;
+import com.rpgapp.devapp.rpgapp.Screens.Edit.EditIntent.EditAdventureDescriptionIntent;
+import com.rpgapp.devapp.rpgapp.Screens.Edit.EditIntent.EditAdventureTitleIntent;
 
 public class ProgressTabFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -52,6 +55,16 @@ public class ProgressTabFragment extends Fragment {
 
         mSummaryTextView = view.findViewById(R.id.adventure_progress_adventure_summary);
         mSummaryTextView.setText(mAdventure.getDescription());
+        mSummaryTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditFragment fragment = EditFragment.newInstance(new EditAdventureDescriptionIntent(mAdventure));
+                getFragmentManager().
+                        beginTransaction().
+                        replace(R.id.container, fragment).
+                        commit();
+            }
+        });
         
         mRecyclerView = view.findViewById(R.id.adventure_progress_sessions_list);
 
