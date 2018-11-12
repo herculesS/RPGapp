@@ -3,6 +3,10 @@ package com.rpgapp.devapp.rpgapp.Utils;
 import java.util.Calendar;
 
 public class Utils {
+    public enum Sex {
+        MALE,
+        FEMALE
+    }
 
     static public String getCurrentDay() {
         Calendar cal = Calendar.getInstance();

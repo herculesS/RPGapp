@@ -18,4 +18,8 @@
     <string name="edit_session_title_label">Novo nome para a sessão</string>
     <string name="edit_adventure_description_label">Nova descrição para a aventura</string>
     <string name="edit_session_summary_label">Nova resumo para a sessão</string>
+    <string name="user_name">User Name</string>
+    <string name="type_email">Type Email</string>
+    <string name="type_password">Type Password</string>
+    <string name="confirm_password">Confirm Password</string>
 </resources>

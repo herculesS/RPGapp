@@ -11,6 +11,7 @@ public class Adventure implements Serializable {
     private String mTitle;
     private String mDescription;
     private ArrayList<Session> mSessions;
+    private ArrayList<Character> mCharacters;
 
     public String getTitle() {
         return mTitle;
@@ -54,6 +55,27 @@ public class Adventure implements Serializable {
     public void removeSession(Session se) {
         if (mSessions != null) {
             mSessions.remove(se);
+        }
+    }
+
+    public ArrayList<Character> getCharacters() {
+        return mCharacters;
+    }
+
+    public void setCharacters(ArrayList<Character> characters) {
+        mCharacters = characters;
+    }
+
+    public void addCharacter(Character ca) {
+        if (mCharacters == null) {
+            mCharacters = new ArrayList<>();
+        }
+        mCharacters.add(ca);
+    }
+
+    public void removeCharacter(Character ca) {
+        if (mCharacters != null) {
+            mCharacters.remove(ca);
         }
     }
 }

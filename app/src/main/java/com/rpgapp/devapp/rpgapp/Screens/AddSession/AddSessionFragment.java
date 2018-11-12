@@ -121,7 +121,7 @@ public class AddSessionFragment extends Fragment implements AdventureRequestMana
 
     @Override
     public void onSaved() {
-        AdventureDetailsFragment fragment = AdventureDetailsFragment.newInstance(mAdventure);
+        AdventureDetailsFragment fragment = AdventureDetailsFragment.newInstance(mAdventure, AdventureDetailsFragment.PROGRESS_FRAG );
         getFragmentManager().
                 beginTransaction().
                 replace(R.id.container, fragment).
@@ -130,7 +130,7 @@ public class AddSessionFragment extends Fragment implements AdventureRequestMana
 
     @Override
     public void onBack() {
-        AdventureDetailsFragment fragment = AdventureDetailsFragment.newInstance(mAdventure);
+        AdventureDetailsFragment fragment = AdventureDetailsFragment.newInstance(mAdventure, AdventureDetailsFragment.PROGRESS_FRAG);
         getFragmentManager().
                 beginTransaction().
                 replace(R.id.container, fragment).

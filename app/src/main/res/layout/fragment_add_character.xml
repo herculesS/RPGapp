@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/create_character_btn_create"
+        android:layout_width="76dp"
+        android:layout_height="76dp"
+        android:layout_gravity="right"
+        app:srcCompat="@drawable/btn_close_edit_mode"/>
+
+    <ImageView
+        android:id="@+id/create_character_btn_close"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        app:srcCompat="@drawable/close_btn"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginLeft="43dp"
+            android:paddingBottom="15dp"
+            android:text="Create Character"
+            android:textColor="@color/CreationLabelBlue"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="43dp"
+            android:text="De nome ao personagem"
+            android:textColor="@color/CreationLabelGray"/>
+
+        <EditText
+            android:id="@+id/edit_text_name_character"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginLeft="43dp"
+            android:background="@android:color/transparent"
+            android:hint="Nome"
+            android:textColor="@color/CreationLabelBlack"
+            android:textStyle="bold"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="43dp"
+            android:layout_marginRight="43dp"
+            app:srcCompat="@drawable/line"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="43dp"
+            android:text="De uma descrição"
+            android:textColor="@color/CreationLabelGray"/>
+
+        <EditText
+            android:id="@+id/edit_text_summary_character"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginLeft="43dp"
+            android:background="@android:color/transparent"
+            android:hint="Descrição"
+            android:textColor="@color/CreationLabelBlack"
+            android:textStyle="bold"/>
+
+        <ImageView
+            android:id="@+id/ready_btn"
+            android:layout_width="118dp"
+            android:layout_height="42dp"
+            android:layout_gravity="right"
+            android:layout_marginRight="43dp"
+            android:layout_marginTop="26dp"
+            app:srcCompat="@drawable/ready_btn"/>
+
+
+    </LinearLayout>
+</FrameLayout>
