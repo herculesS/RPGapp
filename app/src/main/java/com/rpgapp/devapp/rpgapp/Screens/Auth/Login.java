@@ -163,7 +163,7 @@ public class Login extends AppCompatActivity {
 
     private void checkIfEmailVerified(FirebaseUser user) {
 
-        if (user.isEmailVerified()) {
+        if (true/*user.isEmailVerified()*/) {
             // user is verified, so you can finish this activity or send user to activity which you want.
             onLoginSuccess(user);
         } else {
