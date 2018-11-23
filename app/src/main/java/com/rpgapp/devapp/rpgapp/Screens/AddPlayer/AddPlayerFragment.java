@@ -3,38 +3,41 @@ package com.rpgapp.devapp.rpgapp.Screens.AddPlayer;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 
+import com.rpgapp.devapp.rpgapp.DataAccessManager.UserRequests.UserRequestManager;
+import com.rpgapp.devapp.rpgapp.Model.Adventure;
+import com.rpgapp.devapp.rpgapp.Model.User;
 import com.rpgapp.devapp.rpgapp.R;
 
-public class AddPlayerFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
+import java.util.ArrayList;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
+public class AddPlayerFragment extends Fragment implements UserRequestManager.OnUserSearchComplete {
+    private static final String ADVENTURE = "param1";
+
+    private Adventure mAdventure;
+    private EditText mNameToSearch;
+    private ImageView mSearchBTN;
+    private RecyclerView mPlayerList;
+    private PlayersToAddAdapter mPlayersToAddAdapter;
 
 
     public AddPlayerFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AddPlayerFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AddPlayerFragment newInstance(String param1, String param2) {
+
+    public static AddPlayerFragment newInstance(Adventure adventure) {
         AddPlayerFragment fragment = new AddPlayerFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+        args.putSerializable(ADVENTURE, adventure);
         fragment.setArguments(args);
         return fragment;
     }
@@ -43,16 +46,37 @@ public class AddPlayerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mAdventure = (Adventure) getArguments().getSerializable(ADVENTURE);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_player, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_player, container, false);
+        mNameToSearch = view.findViewById(R.id.name_to_search);
+        mSearchBTN = view.findViewById(R.id.search_icon);
+        mPlayerList = view.findViewById(R.id.player_list);
+        mPlayerList.setLayoutManager(new LinearLayoutManager(inflater.getContext()));
+        mPlayersToAddAdapter = new PlayersToAddAdapter(null,mAdventure);
+        mPlayerList.setAdapter(mPlayersToAddAdapter);
+
+        mSearchBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = mNameToSearch.getText().toString().trim();
+
+                    UserRequestManager.searchUserByName(name, AddPlayerFragment.this);
+
+            }
+        });
+        
+        return view;
     }
 
+    @Override
+    public void onUserSearchComplete(ArrayList<User> user) {
+        Log.d("logsave", "here " + user.size());
+        mPlayersToAddAdapter.updateList(user);
+    }
 }

@@ -12,16 +12,19 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.rpgapp.devapp.rpgapp.DataAccessManager.AdventureRequests.AdventureRequestManager;
+import com.rpgapp.devapp.rpgapp.DataAccessManager.UserRequests.UserRequestManager;
 import com.rpgapp.devapp.rpgapp.MainActivity;
 import com.rpgapp.devapp.rpgapp.Model.Adventure;
 import com.rpgapp.devapp.rpgapp.Model.Character;
+import com.rpgapp.devapp.rpgapp.Model.Notification;
 import com.rpgapp.devapp.rpgapp.Model.User;
 import com.rpgapp.devapp.rpgapp.R;
 import com.rpgapp.devapp.rpgapp.Screens.AdventureDetails.AdventureDetailsFragment;
 import com.rpgapp.devapp.rpgapp.Utils.BackableFragment;
 
 
-public class AddCharacter extends Fragment implements AdventureRequestManager.OnSaveAdventure, BackableFragment {
+
+public class AddCharacter extends Fragment implements AdventureRequestManager.OnSaveAdventure, BackableFragment, UserRequestManager.OnSaveUser {
     private static final String ADVENTURE_ID = "adventure_id";
 
     private Adventure mAdventure;
@@ -103,7 +106,20 @@ public class AddCharacter extends Fragment implements AdventureRequestManager.On
 
     @Override
     public void onSaved() {
-        AdventureDetailsFragment fragment = AdventureDetailsFragment.newInstance(mAdventure, AdventureDetailsFragment.PLAYER_FRAG);
+        MainActivity activity = (MainActivity) getActivity();
+        User user = activity.getCurrentUser();
+        for(Notification nt: user.getNotifications()) {
+            if(nt.getAdventureId().equals(mAdventure.getId())){
+                user.removeNotification(nt);
+                UserRequestManager.saveUser(user, this);
+            }
+        }
+
+    }
+
+    @Override
+    public void onBack() {
+        AdventureDetailsFragment fragment = AdventureDetailsFragment.newInstance(mAdventure,AdventureDetailsFragment.PLAYER_FRAG);
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.container,fragment)
@@ -111,8 +127,8 @@ public class AddCharacter extends Fragment implements AdventureRequestManager.On
     }
 
     @Override
-    public void onBack() {
-        AdventureDetailsFragment fragment = AdventureDetailsFragment.newInstance(mAdventure,AdventureDetailsFragment.PLAYER_FRAG);
+    public void onUserSaved() {
+        AdventureDetailsFragment fragment = AdventureDetailsFragment.newInstance(mAdventure, AdventureDetailsFragment.PLAYER_FRAG);
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.container,fragment)

@@ -12,6 +12,8 @@ public class Adventure implements Serializable {
     private String mDescription;
     private ArrayList<Session> mSessions;
     private ArrayList<Character> mCharacters;
+    private DungeonMaster mDM;
+
 
     public String getTitle() {
         return mTitle;
@@ -77,5 +79,45 @@ public class Adventure implements Serializable {
         if (mCharacters != null) {
             mCharacters.remove(ca);
         }
+    }
+
+    public DungeonMaster getDM() {
+        return mDM;
+    }
+
+    public void setDM(DungeonMaster DM) {
+        mDM = DM;
+    }
+
+    public boolean isUserInThisAdventure(String userId) {
+        if (isUserTheDM(userId) || isUserACharacter(userId)){
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean isUserTheDM(String userId){
+        if(mDM == null) {
+            return false;
+        }
+        if (mDM.getUserId().equals(userId)){
+            return true;
+        }
+        return  false;
+    }
+
+    public boolean isUserACharacter(String userId) {
+        if (mCharacters == null) {
+            return false;
+        }
+
+        for (Character ch : mCharacters) {
+            if (ch.getUserId().equals(userId)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

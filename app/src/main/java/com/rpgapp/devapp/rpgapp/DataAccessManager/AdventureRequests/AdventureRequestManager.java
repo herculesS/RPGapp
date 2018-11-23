@@ -7,6 +7,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -20,12 +21,37 @@ public class AdventureRequestManager {
         void onComplete(ArrayList<Adventure> adventures);
     }
 
+    public interface OnAdventureLoaded {
+        void onAdventureLoaded(Adventure a);
+    }
+
     public interface OnAdventureAdded {
         void onAdded();
     }
 
     public interface OnSaveAdventure {
         void onSaved();
+    }
+
+    static public void loadAdventure(String id, final OnAdventureLoaded callback) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db
+                .collection("adventures")
+                .document(id)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            Adventure ad = document.toObject(Adventure.class);
+                            callback.onAdventureLoaded(ad);
+                        } else {
+
+                        }
+
+                    }
+                });
     }
 
     static public void saveAdventure(Adventure ad, final OnSaveAdventure callback) {
@@ -47,9 +73,11 @@ public class AdventureRequestManager {
 
     static public void addAdventure(Adventure ad, final OnAdventureAdded callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("adventures").add(ad).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        String id = db.collection("adventures").document().getId();
+        ad.setId(id);
+        db.collection("adventures").document(id).set(ad).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
-            public void onSuccess(DocumentReference documentReference) {
+            public void onComplete(@NonNull Task<Void> task) {
                 callback.onAdded();
             }
         });

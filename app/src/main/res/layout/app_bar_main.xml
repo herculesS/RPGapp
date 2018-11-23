@@ -25,32 +25,46 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/drawer_togle"
+                <FrameLayout
                     android:layout_width="31dp"
                     android:layout_height="31dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_weight="1"
+                    android:id="@+id/togle"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0"
-                    app:srcCompat="@drawable/igor_appbar_drawertogle" />
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintVertical_bias="0.0">
+
+                    <ImageView
+                        android:id="@+id/drawer_togle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        app:srcCompat="@drawable/igor_appbar_drawertogle" />
+
+                    <include
+                        layout="@layout/notification_pop_up"
+                        android:layout_height="15dp"
+                        android:layout_width="15dp"
+                        android:layout_gravity="left|top"/>
+
+                </FrameLayout>
+
 
                 <ImageView
                     android:id="@+id/imageView3"
                     android:layout_width="338dp"
                     android:layout_height="32dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
                     android:layout_weight="5"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/menu_dots"
-                    app:layout_constraintStart_toEndOf="@+id/drawer_togle"
+                    app:layout_constraintStart_toEndOf="@+id/togle"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.75"
                     app:srcCompat="@drawable/igor_appbar_logo" />
@@ -59,9 +73,9 @@
                     android:id="@+id/menu_dots"
                     android:layout_width="31dp"
                     android:layout_height="31dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
                     android:layout_weight="1"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -75,15 +89,14 @@
 
 
     </android.support.design.widget.AppBarLayout>
+
     <RelativeLayout
         android:id="@+id/container"
-        android:layout_marginTop="?android:attr/actionBarSize"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="?android:attr/actionBarSize">
 
     </RelativeLayout>
-
-
 
 
     <ImageView
