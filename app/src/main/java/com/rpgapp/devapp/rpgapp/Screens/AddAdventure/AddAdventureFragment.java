@@ -12,7 +12,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.rpgapp.devapp.rpgapp.DataAccessManager.AdventureRequests.AdventureRequestManager;
+import com.rpgapp.devapp.rpgapp.MainActivity;
 import com.rpgapp.devapp.rpgapp.Model.Adventure;
+import com.rpgapp.devapp.rpgapp.Model.DungeonMaster;
+import com.rpgapp.devapp.rpgapp.Model.User;
 import com.rpgapp.devapp.rpgapp.R;
 import com.rpgapp.devapp.rpgapp.Screens.Adventures.AdventuresFragment;
 import com.rpgapp.devapp.rpgapp.Utils.BackableFragment;
@@ -52,11 +55,19 @@ public class AddAdventureFragment extends Fragment implements AdventureRequestMa
         mReadyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Adventure adventure = new Adventure();
+                MainActivity ac = (MainActivity) getActivity();
+                if (ac != null) {
+                    User ur = ac.getCurrentUser();
+                    Adventure adventure = new Adventure();
 
-                adventure.setTitle(mAdventureTitleEditText.getText().toString());
-                adventure.setDescription("Default description");
-                AdventureRequestManager.addAdventure(adventure, AddAdventureFragment.this);
+                    adventure.setTitle(mAdventureTitleEditText.getText().toString());
+                    adventure.setDescription("Default description");
+                    DungeonMaster dm = new DungeonMaster();
+                    dm.setUserId(ur.getId());
+                    adventure.setDM(dm);
+                    AdventureRequestManager.addAdventure(adventure, AddAdventureFragment.this);
+
+                }
             }
         });
         return view;

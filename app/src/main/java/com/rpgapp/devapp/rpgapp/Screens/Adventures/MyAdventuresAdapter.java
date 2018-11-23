@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.rpgapp.devapp.rpgapp.DataAccessManager.AdventureRequests.AdventureRequestManager;
+import com.rpgapp.devapp.rpgapp.MainActivity;
 import com.rpgapp.devapp.rpgapp.Model.Adventure;
 import com.rpgapp.devapp.rpgapp.Screens.Adventures.AdventuresFragment.OnListFragmentInteractionListener;
 import com.rpgapp.devapp.rpgapp.R;
@@ -37,11 +38,11 @@ public class MyAdventuresAdapter extends RecyclerView.Adapter<MyAdventuresAdapte
 
     private void setLoadingBar() {
         mProgressBar = new ProgressBar(mActivity, null, android.R.attr.progressBarStyleLarge);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(100,100);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(100, 100);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
 
         RelativeLayout layout = mActivity.findViewById(R.id.container);
-        layout.addView(mProgressBar,params);
+        layout.addView(mProgressBar, params);
     }
 
     @Override
@@ -74,7 +75,13 @@ public class MyAdventuresAdapter extends RecyclerView.Adapter<MyAdventuresAdapte
 
     @Override
     public void onComplete(ArrayList<Adventure> adventures) {
-        mValues = adventures;
+        mValues = new ArrayList<>();
+        for (Adventure ad : adventures) {
+            MainActivity activity = (MainActivity) mActivity;
+            if(ad.isUserInThisAdventure(activity.getCurrentUser().getId())) {
+                mValues.add(ad);
+            }
+        }
         mProgressBar.setVisibility(View.GONE);
 
         notifyDataSetChanged();
