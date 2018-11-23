@@ -15,6 +15,7 @@ import com.rpgapp.devapp.rpgapp.MainActivity;
 import com.rpgapp.devapp.rpgapp.Model.Adventure;
 import com.rpgapp.devapp.rpgapp.R;
 import com.rpgapp.devapp.rpgapp.Screens.AddCharacter.AddCharacter;
+import com.rpgapp.devapp.rpgapp.Screens.AddPlayer.AddPlayerFragment;
 import com.rpgapp.devapp.rpgapp.Screens.AddSession.AddSessionFragment;
 import com.rpgapp.devapp.rpgapp.Screens.AdventureDetails.PlayersTab.PlayersTabFragment;
 import com.rpgapp.devapp.rpgapp.Screens.AdventureDetails.ProgressTab.ProgressTabFragment;
@@ -162,8 +163,11 @@ public class AdventureDetailsFragment extends Fragment implements BackableFragme
 
             @Override
             public void onClick(View v) {
-                AddCharacter fragment = AddCharacter.newInstance(mAdventure);
-                getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+                AddPlayerFragment fragment = AddPlayerFragment.newInstance(mAdventure);
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.container, fragment)
+                        .commit();
             }
         };
 

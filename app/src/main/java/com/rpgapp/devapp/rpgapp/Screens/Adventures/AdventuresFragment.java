@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.rpgapp.devapp.rpgapp.MainActivity;
 import com.rpgapp.devapp.rpgapp.Model.Adventure;
 import com.rpgapp.devapp.rpgapp.R;
 import com.rpgapp.devapp.rpgapp.Utils.BackableFragment;
@@ -37,6 +38,9 @@ public class AdventuresFragment extends Fragment implements BackableFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_adventures_list, container, false);
+
+        MainActivity main = (MainActivity) getActivity();
+        main.showActionBtn();
 
         // Set the adapter
         if (view instanceof RecyclerView) {
