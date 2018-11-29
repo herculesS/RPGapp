@@ -47,4 +47,6 @@ public class Session implements Serializable {
         }
         mRolls.add(rl);
     }
+
+
 }

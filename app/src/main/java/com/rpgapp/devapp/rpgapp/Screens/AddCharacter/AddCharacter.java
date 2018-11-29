@@ -20,6 +20,8 @@ import com.rpgapp.devapp.rpgapp.Model.Notification;
 import com.rpgapp.devapp.rpgapp.Model.User;
 import com.rpgapp.devapp.rpgapp.R;
 import com.rpgapp.devapp.rpgapp.Screens.AdventureDetails.AdventureDetailsFragment;
+import com.rpgapp.devapp.rpgapp.Screens.Adventures.AdventuresFragment;
+import com.rpgapp.devapp.rpgapp.Screens.Notifications.Notifications;
 import com.rpgapp.devapp.rpgapp.Utils.BackableFragment;
 
 
@@ -119,7 +121,8 @@ public class AddCharacter extends Fragment implements AdventureRequestManager.On
 
     @Override
     public void onBack() {
-        AdventureDetailsFragment fragment = AdventureDetailsFragment.newInstance(mAdventure,AdventureDetailsFragment.PLAYER_FRAG);
+        MainActivity main = (MainActivity) getActivity();
+        Notifications fragment = Notifications.newInstance(main.getCurrentUser().getNotifications());
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.container,fragment)

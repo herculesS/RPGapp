@@ -209,12 +209,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_books) {
 
         } else if (id == R.id.nav_account) {
-            Fragment fragment = SessionFragment.newInstance();
 
-            getSupportFragmentManager().
-                    beginTransaction().
-                    replace(R.id.container, fragment).
-                    commit();
         } else if (id == R.id.nav_notifications) {
             Fragment fragment = Notifications.newInstance(mCurrentUser.getNotifications());
 

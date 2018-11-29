@@ -10,7 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.rpgapp.devapp.rpgapp.DataAccessManager.SessionRequests.SessionRequestManager;
+import com.rpgapp.devapp.rpgapp.DataAccessManager.AdventureRequests.AdventureRequestManager;
+import com.rpgapp.devapp.rpgapp.DataAccessManager.SessionRequests.SessionManager;
 import com.rpgapp.devapp.rpgapp.MainActivity;
 import com.rpgapp.devapp.rpgapp.Model.Adventure;
 import com.rpgapp.devapp.rpgapp.Model.Roll;
@@ -18,8 +19,10 @@ import com.rpgapp.devapp.rpgapp.Model.Session;
 import com.rpgapp.devapp.rpgapp.Model.User;
 import com.rpgapp.devapp.rpgapp.R;
 
-public class SessionFragment extends Fragment implements SessionRequestManager.ObservesSession {
+public class SessionFragment extends Fragment implements SessionManager.ObservesSession, AdventureRequestManager.OnSaveAdventure {
     private static final String ADVENTURE = "adventure";
+    private static final String POSITION = "position";
+
 
     private Adventure mAdventure;
     private EditText mNumberOfDice;
@@ -30,6 +33,7 @@ public class SessionFragment extends Fragment implements SessionRequestManager.O
     private View mBtnRoll;
     private User mUser;
     private Session mSession;
+    private int mPosition;
 
 
     public SessionFragment() {
@@ -37,9 +41,11 @@ public class SessionFragment extends Fragment implements SessionRequestManager.O
     }
 
 
-    public static SessionFragment newInstance() {
+    public static SessionFragment newInstance(Adventure adventure, int position) {
         SessionFragment fragment = new SessionFragment();
         Bundle args = new Bundle();
+        args.putSerializable(ADVENTURE,adventure);
+        args.putInt(POSITION,position);
         fragment.setArguments(args);
         return fragment;
     }
@@ -48,6 +54,8 @@ public class SessionFragment extends Fragment implements SessionRequestManager.O
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            mAdventure = (Adventure) getArguments().getSerializable(ADVENTURE);
+            mPosition = getArguments().getInt(POSITION);
         }
     }
 
@@ -65,10 +73,10 @@ public class SessionFragment extends Fragment implements SessionRequestManager.O
         MainActivity main = (MainActivity) getActivity();
         main.hideActionBtn();
          mUser = main.getCurrentUser();
-        mRollsAdapter = new RollsAdapter(null,  mUser.getId());
+        mRollsAdapter = new RollsAdapter(null,  mUser.getId(), mAdventure, mPosition);
         mRollsRecyclerView.setAdapter(mRollsAdapter);
         mBtnRoll = view.findViewById(R.id.roll_btn);
-        SessionRequestManager.watchSession(this);
+        SessionManager.getInstance().watchSession(this,mAdventure,mPosition);
         mBtnRoll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,9 +84,9 @@ public class SessionFragment extends Fragment implements SessionRequestManager.O
                 int diceFaces = Integer.parseInt(mDiceFaces.getText().toString().trim());
                 int bonus = Integer.parseInt(mBonus.getText().toString().trim());
                 Roll rl = new Roll(numberOfDices,diceFaces,bonus, mUser.getId());
-                if(mSession!=null) {
-                    mSession.addRoll(rl);
-                    SessionRequestManager.updateSession(mSession);
+                if(mAdventure.getSessions().get(mPosition)!=null) {
+                    mAdventure.getSessions().get(mPosition).addRoll(rl);
+                    AdventureRequestManager.saveAdventure(mAdventure, SessionFragment.this);
                 }
 
             }
@@ -105,6 +113,16 @@ public class SessionFragment extends Fragment implements SessionRequestManager.O
         if(mSession.getRolls()!= null) {
             mRollsRecyclerView.smoothScrollToPosition(mSession.getRolls().size()-1);
         }
+
+    }
+
+    @Override
+    public void OnSessionNotFound() {
+
+    }
+
+    @Override
+    public void onSaved() {
 
     }
 }

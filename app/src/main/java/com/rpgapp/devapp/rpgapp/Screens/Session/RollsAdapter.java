@@ -8,23 +8,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.rpgapp.devapp.rpgapp.DataAccessManager.SessionRequests.SessionRequestManager;
+import com.rpgapp.devapp.rpgapp.DataAccessManager.SessionRequests.SessionManager;
+import com.rpgapp.devapp.rpgapp.Model.Adventure;
 import com.rpgapp.devapp.rpgapp.Model.Roll;
 import com.rpgapp.devapp.rpgapp.Model.Session;
 import com.rpgapp.devapp.rpgapp.R;
 
 import java.util.ArrayList;
 
-public class RollsAdapter extends RecyclerView.Adapter<RollsAdapter.ViewHolder> implements SessionRequestManager.ObservesSession {
+public class RollsAdapter extends RecyclerView.Adapter<RollsAdapter.ViewHolder> implements SessionManager.ObservesSession {
     private ArrayList<Roll> mRolls;
     private String mUserId;
+    private Adventure mAdventure;
+    private int mPosition;
     private final int SELF = 0;
     private final int OTHER = 1;
 
-    public RollsAdapter(ArrayList<Roll> rolls, String userId) {
+    public RollsAdapter(ArrayList<Roll> rolls, String userId, Adventure adventure, int position) {
         mRolls = rolls;
         mUserId = userId;
-        SessionRequestManager.watchSession(this);
+        mAdventure = adventure;
+        mPosition = position;
+        SessionManager.getInstance().watchSession(this,mAdventure,mPosition);
     }
 
 
@@ -77,6 +82,11 @@ public class RollsAdapter extends RecyclerView.Adapter<RollsAdapter.ViewHolder> 
     public void OnChangeInSession(Session se) {
         mRolls = se.getRolls();
         notifyDataSetChanged();
+    }
+
+    @Override
+    public void OnSessionNotFound() {
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
