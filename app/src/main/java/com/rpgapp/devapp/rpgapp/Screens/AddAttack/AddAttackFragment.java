@@ -22,13 +22,11 @@ import com.rpgapp.devapp.rpgapp.Screens.Session.SessionFragment;
  */
 public class AddAttackFragment extends Fragment implements AdventureRequestManager.OnSaveAdventure {
     private static final String CHAR_POSITION = "param1";
-    private static final String SESSION_POSITION = "param3";
     private static final String ADVENTURE = "param2";
 
 
     private Adventure mAdventure;
     private int mCharPosition;
-    private int mSessionPosition;
     private EditText mNumberOfDice;
     private EditText mDiceFaces;
     private EditText mBonus;
@@ -40,11 +38,10 @@ public class AddAttackFragment extends Fragment implements AdventureRequestManag
         // Required empty public constructor
     }
 
-    public static AddAttackFragment newInstance(Adventure adventure, int char_position, int session_position) {
+    public static AddAttackFragment newInstance(Adventure adventure, int char_position) {
         AddAttackFragment fragment = new AddAttackFragment();
         Bundle args = new Bundle();
         args.putInt(CHAR_POSITION, char_position);
-        args.putInt(SESSION_POSITION, session_position);
         args.putSerializable(ADVENTURE, adventure);
         fragment.setArguments(args);
         return fragment;
@@ -55,7 +52,6 @@ public class AddAttackFragment extends Fragment implements AdventureRequestManag
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mCharPosition = getArguments().getInt(CHAR_POSITION);
-            mSessionPosition = getArguments().getInt(SESSION_POSITION);
             mAdventure = (Adventure) getArguments().getSerializable(ADVENTURE);
         }
     }
@@ -89,7 +85,7 @@ public class AddAttackFragment extends Fragment implements AdventureRequestManag
 
     @Override
     public void onSaved() {
-        SessionFragment fragment = SessionFragment.newInstance(mAdventure, mSessionPosition);
+        AdventureDetailsFragment fragment = AdventureDetailsFragment.newInstance(mAdventure, AdventureDetailsFragment.PLAYER_FRAG);
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.container,fragment)

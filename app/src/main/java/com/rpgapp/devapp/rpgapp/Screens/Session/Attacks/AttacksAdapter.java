@@ -41,7 +41,7 @@ public class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.ViewHold
             @Override
             public void onClick(View v) {
                 Roll rl = new Roll(at);
-                mAdventure.getSessions().get(mSessionPosition).getRolls().add(rl);
+                mAdventure.getSessions().get(mSessionPosition).addRoll(rl);
                 AdventureRequestManager.saveAdventure(mAdventure, AttacksAdapter.this);
             }
         });

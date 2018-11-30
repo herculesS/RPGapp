@@ -109,7 +109,7 @@ public class User implements Serializable {
     }
 
     public boolean isUserTheDm(Adventure ad) {
-        if (ad.getDM().getUserId() == id) {
+        if (ad.getDM().getUserId().equals(id)) {
             return true;
         } else {
             return false;
@@ -120,7 +120,7 @@ public class User implements Serializable {
         if (!isUserTheDm(ad) && ad.getCharacters() != null) {
             ArrayList<Character> characters = ad.getCharacters();
             for (int i = 0; i < characters.size(); i++) {
-                if(characters.get(i).getUserId() == id) {
+                if(characters.get(i).getUserId().equals(id)) {
                     return i;
                 }
             }

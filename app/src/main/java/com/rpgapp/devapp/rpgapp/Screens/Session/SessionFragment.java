@@ -5,16 +5,15 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import com.rpgapp.devapp.rpgapp.DataAccessManager.AdventureRequests.AdventureRequestManager;
 import com.rpgapp.devapp.rpgapp.DataAccessManager.SessionRequests.SessionManager;
 import com.rpgapp.devapp.rpgapp.MainActivity;
 import com.rpgapp.devapp.rpgapp.Model.Adventure;
-import com.rpgapp.devapp.rpgapp.Model.Roll;
 import com.rpgapp.devapp.rpgapp.Model.Session;
 import com.rpgapp.devapp.rpgapp.Model.User;
 import com.rpgapp.devapp.rpgapp.R;
@@ -26,9 +25,6 @@ public class SessionFragment extends Fragment implements SessionManager.Observes
 
 
     private Adventure mAdventure;
-    private EditText mNumberOfDice;
-    private EditText mDiceFaces;
-    private EditText mBonus;
     private RecyclerView mRollsRecyclerView;
     private RollsAdapter mRollsAdapter;
     private View mBtnRoll;
@@ -39,6 +35,7 @@ public class SessionFragment extends Fragment implements SessionManager.Observes
     private int mCharacterPosition;
     private View mCombatOptions;
     private View mAttackButton;
+    private boolean mCombatOptionsOpen;
 
 
     public SessionFragment() {
@@ -68,9 +65,6 @@ public class SessionFragment extends Fragment implements SessionManager.Observes
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_session, container, false);
-        mNumberOfDice = view.findViewById(R.id.number_of_dice);
-        mDiceFaces = view.findViewById(R.id.dice_faces);
-        mBonus = view.findViewById(R.id.bonus);
         mRollsRecyclerView = view.findViewById(R.id.roll_list);
         LinearLayoutManager llm = new LinearLayoutManager(container.getContext());
         llm.setReverseLayout(true);
@@ -84,19 +78,26 @@ public class SessionFragment extends Fragment implements SessionManager.Observes
         mCombatOptions = view.findViewById(R.id.combat_options);
         mCombatOptions.setVisibility(View.GONE);
         mAttackButton = view.findViewById(R.id.attack_button);
+        mCombatOptionsOpen = false;
 
-        view.setOnClickListener(new View.OnClickListener() {
+        mAttackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mCombatOptions.getVisibility() == View.GONE) {
+
+                Log.d("teste", "" + mCharacterPosition);
+                if(!mCombatOptionsOpen) {
                     mCombatOptions.setVisibility(View.VISIBLE);
+                    mCombatOptionsOpen = true;
+
                 } else {
                     mCombatOptions.setVisibility(View.GONE);
+                    mCombatOptionsOpen = false;
                 }
             }
         });
 
         if(mCharacterPosition != -1){
+            Log.d("teste", "" + mCharacterPosition);
             mAttacksFragment = AttacksFragment.newInstance(mAdventure, mCharacterPosition, mPosition);
             getFragmentManager()
                     .beginTransaction()

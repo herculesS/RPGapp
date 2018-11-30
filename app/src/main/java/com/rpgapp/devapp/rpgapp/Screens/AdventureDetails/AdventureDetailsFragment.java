@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,9 @@ import android.widget.TextView;
 
 import com.rpgapp.devapp.rpgapp.MainActivity;
 import com.rpgapp.devapp.rpgapp.Model.Adventure;
+import com.rpgapp.devapp.rpgapp.Model.User;
 import com.rpgapp.devapp.rpgapp.R;
+import com.rpgapp.devapp.rpgapp.Screens.AddAttack.AddAttackFragment;
 import com.rpgapp.devapp.rpgapp.Screens.AddCharacter.AddCharacter;
 import com.rpgapp.devapp.rpgapp.Screens.AddPlayer.AddPlayerFragment;
 import com.rpgapp.devapp.rpgapp.Screens.AddSession.AddSessionFragment;
@@ -54,6 +57,7 @@ public class AdventureDetailsFragment extends Fragment implements BackableFragme
     private View.OnClickListener mAddSessionClickListener;
     private View.OnClickListener mAddCharacterClickListener;
     private String mStringParam;
+    private View mAddAttack;
 
     public AdventureDetailsFragment() {
         // Required empty public constructor
@@ -111,6 +115,25 @@ public class AdventureDetailsFragment extends Fragment implements BackableFragme
         mProgressBTN =view.findViewById(R.id.btn_progress);
         mPlayersBTN = view.findViewById(R.id.btn_players);
         mTabSelectedView = view.findViewById(R.id.bg_tab_select);
+        mAddAttack = view.findViewById(R.id.add_attack);
+        MainActivity mainActivity = (MainActivity) getActivity();
+        User user = mainActivity.getCurrentUser();
+        final int position = user.getUserCharacterPosition(mAdventure);
+
+        if (position!=-1){
+            mAddAttack.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("teste","teste");
+                    AddAttackFragment fragment = AddAttackFragment.newInstance(mAdventure, position);
+                    getFragmentManager().
+                            beginTransaction().
+                            replace(R.id.container, fragment).
+                            commit();
+                }
+            });
+        }
+
 
         mProgressBTN.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,6 +141,7 @@ public class AdventureDetailsFragment extends Fragment implements BackableFragme
                 mTabSelectedView.setImageResource(R.drawable.adventure_tab_first_selected);
                 mAddSessionBTN.setImageResource(R.drawable.btn_add_session);
                 mAddSessionBTN.setOnClickListener(mAddSessionClickListener);
+                mAddAttack.setVisibility(View.GONE);
                 getFragmentManager()
                         .beginTransaction()
                         .replace(R.id.adventure_players_container, mProgressTabFragment)
@@ -131,6 +155,9 @@ public class AdventureDetailsFragment extends Fragment implements BackableFragme
                 mTabSelectedView.setImageResource(R.drawable.adventure_tab_second_selected);
                 mAddSessionBTN.setImageResource(R.drawable.btn_add_player);
                 mAddSessionBTN.setOnClickListener(mAddCharacterClickListener);
+                if(position!=-1){
+                    mAddAttack.setVisibility(View.VISIBLE);
+                }
                 getFragmentManager()
                         .beginTransaction()
                         .replace(R.id.adventure_players_container,mPlayersTabFragment)

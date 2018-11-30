@@ -42,7 +42,6 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.ViewHo
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.sessions_list_item, parent, false);
-        Log.d("teste", "cr");
         return new SessionsAdapter.ViewHolder(view);
     }
 
@@ -62,12 +61,10 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.ViewHo
                         commit();
             }
         });
-        Log.d("teste", "b");
     }
 
     @Override
     public int getItemCount() {
-        Log.d("teste", "g");
         return mSessions.size();
     }
 
@@ -81,7 +78,6 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.ViewHo
         public ViewHolder(View itemView) {
 
             super(itemView);
-            Log.d("teste", "c");
             mDateTextView =  itemView.findViewById(R.id.session_list_view_item_date);
             mTitleView = itemView.findViewById(R.id.session_list_view_item_title);
             mSummaryTextView =  itemView.findViewById(R.id.session_list_view_item_summary);
