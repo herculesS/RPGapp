@@ -57,6 +57,15 @@ public class Roll implements Serializable {
         roll();
     }
 
+    public Roll(Attack at) {
+        mNumberOfDice = at.getNumberOfDice();
+        mDiceFacesNumber = at.getDiceFace();
+        mBonus = at.getBonus();
+        mUserId = at.getUserId();
+
+        roll();
+    }
+
     public void roll() {
         mNumberRolled = 0;
         for (int i = 0; i < mNumberOfDice; i++) {

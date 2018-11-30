@@ -11,11 +11,13 @@ import android.view.ViewGroup;
 
 import com.rpgapp.devapp.rpgapp.Model.Notification;
 import com.rpgapp.devapp.rpgapp.R;
+import com.rpgapp.devapp.rpgapp.Screens.Adventures.AdventuresFragment;
+import com.rpgapp.devapp.rpgapp.Utils.BackableFragment;
 
 import java.util.ArrayList;
 
 
-public class Notifications extends Fragment {
+public class Notifications extends Fragment implements BackableFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String NOTIFICATIONS = "NOTIFICATIONS";
@@ -56,4 +58,12 @@ public class Notifications extends Fragment {
         return view;
     }
 
+    @Override
+    public void onBack() {
+        AdventuresFragment fragment = AdventuresFragment.newInstance();
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container,fragment)
+                .commit();
+    }
 }

@@ -8,17 +8,25 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.rpgapp.devapp.rpgapp.Model.Adventure;
 
 import java.util.ArrayList;
 
+import javax.annotation.Nullable;
+
 public class AdventureRequestManager {
 
     public interface OnAdventuresLoaded {
         void onComplete(ArrayList<Adventure> adventures);
+    }
+
+    public interface ObservesAdventure {
+        void onChangeInAdventure(Adventure ad);
     }
 
     public interface OnAdventureLoaded {
@@ -33,6 +41,18 @@ public class AdventureRequestManager {
         void onSaved();
     }
 
+    static public void watchAdventure(String adventureId, final ObservesAdventure observer) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db
+                .collection("adventures")
+                .document(adventureId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                Adventure ad = documentSnapshot.toObject(Adventure.class);
+                observer.onChangeInAdventure(ad);
+            }
+        });
+    }
     static public void loadAdventure(String id, final OnAdventureLoaded callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db

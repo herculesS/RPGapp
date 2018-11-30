@@ -16,10 +16,12 @@ import com.rpgapp.devapp.rpgapp.DataAccessManager.UserRequests.UserRequestManage
 import com.rpgapp.devapp.rpgapp.Model.Adventure;
 import com.rpgapp.devapp.rpgapp.Model.User;
 import com.rpgapp.devapp.rpgapp.R;
+import com.rpgapp.devapp.rpgapp.Screens.AdventureDetails.AdventureDetailsFragment;
+import com.rpgapp.devapp.rpgapp.Utils.BackableFragment;
 
 import java.util.ArrayList;
 
-public class AddPlayerFragment extends Fragment implements UserRequestManager.OnUserSearchComplete {
+public class AddPlayerFragment extends Fragment implements UserRequestManager.OnUserSearchComplete , BackableFragment {
     private static final String ADVENTURE = "param1";
 
     private Adventure mAdventure;
@@ -78,5 +80,14 @@ public class AddPlayerFragment extends Fragment implements UserRequestManager.On
     public void onUserSearchComplete(ArrayList<User> user) {
         Log.d("logsave", "here " + user.size());
         mPlayersToAddAdapter.updateList(user);
+    }
+
+    @Override
+    public void onBack() {
+        AdventureDetailsFragment fragment = AdventureDetailsFragment.newInstance(mAdventure, AdventureDetailsFragment.PLAYER_FRAG);
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container,fragment)
+                .commit();
     }
 }

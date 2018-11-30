@@ -205,16 +205,15 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_adventures) {
-            // Handle the camera action
-        } else if (id == R.id.nav_books) {
-
-        } else if (id == R.id.nav_account) {
-            Fragment fragment = SessionFragment.newInstance();
-
+            Fragment fragment = AdventuresFragment.newInstance();
             getSupportFragmentManager().
                     beginTransaction().
                     replace(R.id.container, fragment).
                     commit();
+        } else if (id == R.id.nav_books) {
+
+        } else if (id == R.id.nav_account) {
+
         } else if (id == R.id.nav_notifications) {
             Fragment fragment = Notifications.newInstance(mCurrentUser.getNotifications());
 

@@ -80,24 +80,24 @@ public class User implements Serializable {
     }
 
     public void addNotification(Notification nt) {
-        if(mNotifications == null) {
+        if (mNotifications == null) {
             mNotifications = new ArrayList<>();
         }
         mNotifications.add(nt);
     }
 
     public void removeNotification(Notification nt) {
-        if(mNotifications != null) {
+        if (mNotifications != null) {
             mNotifications.remove(nt);
         }
     }
 
     public boolean isNotificationAlreadySent(String mAdventureId) {
-        if(!userHasNotification()) {
+        if (!userHasNotification()) {
             return false;
         }
         for (Notification nt : mNotifications) {
-            if(nt.getAdventureId().equals(mAdventureId)){
+            if (nt.getAdventureId().equals(mAdventureId)) {
                 return true;
             }
         }
@@ -105,7 +105,28 @@ public class User implements Serializable {
     }
 
     public boolean userHasNotification() {
-        return mNotifications!=null && !mNotifications.isEmpty();
+        return mNotifications != null && !mNotifications.isEmpty();
+    }
+
+    public boolean isUserTheDm(Adventure ad) {
+        if (ad.getDM().getUserId().equals(id)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public int getUserCharacterPosition(Adventure ad) {
+        if (!isUserTheDm(ad) && ad.getCharacters() != null) {
+            ArrayList<Character> characters = ad.getCharacters();
+            for (int i = 0; i < characters.size(); i++) {
+                if(characters.get(i).getUserId().equals(id)) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+        return -1;
     }
 
 

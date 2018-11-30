@@ -5,31 +5,40 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
-import com.rpgapp.devapp.rpgapp.DataAccessManager.SessionRequests.SessionRequestManager;
+import com.rpgapp.devapp.rpgapp.DataAccessManager.AdventureRequests.AdventureRequestManager;
+import com.rpgapp.devapp.rpgapp.DataAccessManager.SessionRequests.SessionManager;
 import com.rpgapp.devapp.rpgapp.MainActivity;
 import com.rpgapp.devapp.rpgapp.Model.Adventure;
-import com.rpgapp.devapp.rpgapp.Model.Roll;
 import com.rpgapp.devapp.rpgapp.Model.Session;
 import com.rpgapp.devapp.rpgapp.Model.User;
 import com.rpgapp.devapp.rpgapp.R;
+import com.rpgapp.devapp.rpgapp.Screens.AdventureDetails.AdventureDetailsFragment;
+import com.rpgapp.devapp.rpgapp.Screens.Session.Attacks.AttacksFragment;
+import com.rpgapp.devapp.rpgapp.Utils.BackableFragment;
 
-public class SessionFragment extends Fragment implements SessionRequestManager.ObservesSession {
+public class SessionFragment extends Fragment implements SessionManager.ObservesSession, AdventureRequestManager.OnSaveAdventure, BackableFragment, AdventureRequestManager.ObservesAdventure {
     private static final String ADVENTURE = "adventure";
+    private static final String POSITION = "position";
+
 
     private Adventure mAdventure;
-    private EditText mNumberOfDice;
-    private EditText mDiceFaces;
-    private EditText mBonus;
     private RecyclerView mRollsRecyclerView;
     private RollsAdapter mRollsAdapter;
     private View mBtnRoll;
     private User mUser;
     private Session mSession;
+    private int mPosition;
+    private AttacksFragment mAttacksFragment;
+    private int mCharacterPosition;
+    private View mCombatOptions;
+    private View mAttackButton;
+    private boolean mCombatOptionsOpen;
+    private View mView;
 
 
     public SessionFragment() {
@@ -37,9 +46,11 @@ public class SessionFragment extends Fragment implements SessionRequestManager.O
     }
 
 
-    public static SessionFragment newInstance() {
+    public static SessionFragment newInstance(Adventure adventure, int position) {
         SessionFragment fragment = new SessionFragment();
         Bundle args = new Bundle();
+        args.putSerializable(ADVENTURE, adventure);
+        args.putInt(POSITION, position);
         fragment.setArguments(args);
         return fragment;
     }
@@ -48,6 +59,8 @@ public class SessionFragment extends Fragment implements SessionRequestManager.O
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            mAdventure = (Adventure) getArguments().getSerializable(ADVENTURE);
+            mPosition = getArguments().getInt(POSITION);
         }
     }
 
@@ -55,34 +68,52 @@ public class SessionFragment extends Fragment implements SessionRequestManager.O
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_session, container, false);
-        mNumberOfDice = view.findViewById(R.id.number_of_dice);
-        mDiceFaces = view.findViewById(R.id.dice_faces);
-        mBonus = view.findViewById(R.id.bonus);
+        mView = view;
+        AdventureRequestManager.watchAdventure(mAdventure.getId(),SessionFragment.this);
         mRollsRecyclerView = view.findViewById(R.id.roll_list);
         LinearLayoutManager llm = new LinearLayoutManager(container.getContext());
         llm.setReverseLayout(true);
         mRollsRecyclerView.setLayoutManager(llm);
         MainActivity main = (MainActivity) getActivity();
         main.hideActionBtn();
-         mUser = main.getCurrentUser();
-        mRollsAdapter = new RollsAdapter(null,  mUser.getId());
+        mUser = main.getCurrentUser();
+        mRollsAdapter = new RollsAdapter(null, mUser.getId(), mAdventure, mPosition);
         mRollsRecyclerView.setAdapter(mRollsAdapter);
-        mBtnRoll = view.findViewById(R.id.roll_btn);
-        SessionRequestManager.watchSession(this);
-        mBtnRoll.setOnClickListener(new View.OnClickListener() {
+        mCharacterPosition = mUser.getUserCharacterPosition(mAdventure);
+        mCombatOptions = view.findViewById(R.id.combat_options);
+        mCombatOptions.setVisibility(View.GONE);
+        mAttackButton = view.findViewById(R.id.attack_button);
+        mCombatOptionsOpen = false;
+
+        mAttackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int numberOfDices = Integer.parseInt(mNumberOfDice.getText().toString().trim());
-                int diceFaces = Integer.parseInt(mDiceFaces.getText().toString().trim());
-                int bonus = Integer.parseInt(mBonus.getText().toString().trim());
-                Roll rl = new Roll(numberOfDices,diceFaces,bonus, mUser.getId());
-                if(mSession!=null) {
-                    mSession.addRoll(rl);
-                    SessionRequestManager.updateSession(mSession);
-                }
 
+                Log.d("teste", "" + mCharacterPosition);
+                if(!mCombatOptionsOpen) {
+                    mCombatOptions.setVisibility(View.VISIBLE);
+                    mCombatOptionsOpen = true;
+                    mRollsRecyclerView.animate().alpha(0.4f);
+
+                } else {
+                    mCombatOptions.setVisibility(View.GONE);
+                    mCombatOptionsOpen = false;
+                    mRollsRecyclerView.animate().alpha(1f);
+                }
             }
         });
+
+        if(mCharacterPosition != -1){
+            Log.d("teste", "" + mCharacterPosition);
+            mAttacksFragment = AttacksFragment.newInstance(mAdventure, mCharacterPosition, mPosition);
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.combat_options,mAttacksFragment)
+                    .commit();
+        }
+
+        SessionManager.getInstance().watchSession(SessionFragment.this,mAdventure,mPosition);
+
         return view;
     }
 
@@ -102,9 +133,33 @@ public class SessionFragment extends Fragment implements SessionRequestManager.O
     @Override
     public void OnChangeInSession(Session se) {
         mSession = se;
-        if(mSession.getRolls()!= null) {
-            mRollsRecyclerView.smoothScrollToPosition(mSession.getRolls().size()-1);
+        if (mSession.getRolls() != null) {
+            mRollsRecyclerView.smoothScrollToPosition(mSession.getRolls().size() - 1);
         }
 
+    }
+
+    @Override
+    public void OnSessionNotFound() {
+
+    }
+
+    @Override
+    public void onSaved() {
+
+    }
+
+    @Override
+    public void onBack() {
+        AdventureDetailsFragment fragment = AdventureDetailsFragment.newInstance(mAdventure, AdventureDetailsFragment.PROGRESS_FRAG);
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container,fragment)
+                .commit();
+    }
+
+    @Override
+    public void onChangeInAdventure(Adventure ad) {
+        mAdventure = ad;
     }
 }

@@ -49,6 +49,7 @@ public class PlayersToAddAdapter extends RecyclerView.Adapter<PlayersToAddAdapte
         } else if (mAdventure.isUserInThisAdventure(user.getId())) {
             holder.mActionBTN.setImageResource(R.drawable.ok_icon);
         } else {
+            holder.mActionBTN.setImageResource(R.drawable.add_player_icon);
             holder.mActionBTN.setTag(position);
             holder.mActionBTN.setOnClickListener(new View.OnClickListener() {
                 @Override

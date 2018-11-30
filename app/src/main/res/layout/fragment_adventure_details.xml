@@ -93,6 +93,7 @@
 
         <ScrollView
             android:layout_width="match_parent"
+            android:clickable="false"
             android:layout_height="wrap_content">
 
             <FrameLayout
@@ -124,6 +125,16 @@
         android:layout_marginTop="10dp"
         android:visibility="gone"
         app:srcCompat="@drawable/btn_close_edit_mode"/>
+
+    <ImageView
+        android:id="@+id/add_attack"
+        android:layout_width="78dp"
+        android:layout_height="77dp"
+        android:background="@drawable/round_white_bg"
+        android:layout_gravity="bottom|left"
+        android:layout_margin="16dp"
+        app:srcCompat="@drawable/add_player_icon"/>
+
 
 
 </FrameLayout>

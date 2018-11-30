@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.rpgapp.devapp.rpgapp.MainActivity;
 import com.rpgapp.devapp.rpgapp.Model.Adventure;
 import com.rpgapp.devapp.rpgapp.R;
 import com.rpgapp.devapp.rpgapp.Utils.BackableFragment;
@@ -18,6 +19,7 @@ public class PlayersTabFragment extends Fragment implements BackableFragment {
     private static final String ADVENTURE_ID = "adventure_id";
 
     private Adventure mAdventure;
+
 
     private RecyclerView mRecyclerView;
 
@@ -47,7 +49,7 @@ public class PlayersTabFragment extends Fragment implements BackableFragment {
         View view = inflater.inflate(R.layout.fragment_players_tab, container, false);
         bindControllers(view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mRecyclerView.getContext()));
-        mRecyclerView.setAdapter(new CharactersAdapter(mAdventure.getCharacters()));
+        mRecyclerView.setAdapter(new CharactersAdapter(mAdventure.getCharacters(), getFragmentManager(), (MainActivity) getActivity(), mAdventure));
         return view;
     }
 

@@ -3,7 +3,6 @@ package com.rpgapp.devapp.rpgapp.Screens.AdventureDetails.ProgressTab;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,10 +12,8 @@ import android.widget.TextView;
 
 import com.rpgapp.devapp.rpgapp.Model.Adventure;
 import com.rpgapp.devapp.rpgapp.R;
-import com.rpgapp.devapp.rpgapp.Screens.Adventures.MyAdventuresAdapter;
 import com.rpgapp.devapp.rpgapp.Screens.Edit.EditFragment;
 import com.rpgapp.devapp.rpgapp.Screens.Edit.EditIntent.EditAdventureDescriptionIntent;
-import com.rpgapp.devapp.rpgapp.Screens.Edit.EditIntent.EditAdventureTitleIntent;
 
 public class ProgressTabFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -71,7 +68,7 @@ public class ProgressTabFragment extends Fragment {
         if (mRecyclerView instanceof RecyclerView) {
             Context context = view.getContext();
             mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-            mRecyclerView.setAdapter(new SessionsAdapter(mAdventure.getSessions()));
+            mRecyclerView.setAdapter(new SessionsAdapter(mAdventure.getSessions(), getFragmentManager(), mAdventure));
         }
 
 

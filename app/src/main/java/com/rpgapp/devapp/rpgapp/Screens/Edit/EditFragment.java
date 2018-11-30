@@ -17,8 +17,9 @@ import com.rpgapp.devapp.rpgapp.Model.Adventure;
 import com.rpgapp.devapp.rpgapp.R;
 import com.rpgapp.devapp.rpgapp.Screens.AdventureDetails.AdventureDetailsFragment;
 import com.rpgapp.devapp.rpgapp.Screens.Edit.EditIntent.EditFieldIntent;
+import com.rpgapp.devapp.rpgapp.Utils.BackableFragment;
 
-public class EditFragment extends Fragment implements AdventureRequestManager.OnSaveAdventure {
+public class EditFragment extends Fragment implements AdventureRequestManager.OnSaveAdventure , BackableFragment {
     private static final String FIELD_TO_BE_EDITED = "FIELD_TO_BE_EDITED";
 
     private EditText mFieldView;
@@ -133,4 +134,12 @@ public class EditFragment extends Fragment implements AdventureRequestManager.On
                 commit();
     }
 
+    @Override
+    public void onBack() {
+        AdventureDetailsFragment fragment = AdventureDetailsFragment.newInstance(mAdventure, AdventureDetailsFragment.PROGRESS_FRAG);
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container,fragment)
+                .commit();
+    }
 }
