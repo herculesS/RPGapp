@@ -14,13 +14,14 @@ import com.rpgapp.devapp.rpgapp.Model.Attack;
 import com.rpgapp.devapp.rpgapp.R;
 import com.rpgapp.devapp.rpgapp.Screens.AdventureDetails.AdventureDetailsFragment;
 import com.rpgapp.devapp.rpgapp.Screens.Session.SessionFragment;
+import com.rpgapp.devapp.rpgapp.Utils.BackableFragment;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link AddAttackFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AddAttackFragment extends Fragment implements AdventureRequestManager.OnSaveAdventure {
+public class AddAttackFragment extends Fragment implements AdventureRequestManager.OnSaveAdventure, BackableFragment {
     private static final String CHAR_POSITION = "param1";
     private static final String ADVENTURE = "param2";
 
@@ -85,6 +86,15 @@ public class AddAttackFragment extends Fragment implements AdventureRequestManag
 
     @Override
     public void onSaved() {
+        AdventureDetailsFragment fragment = AdventureDetailsFragment.newInstance(mAdventure, AdventureDetailsFragment.PLAYER_FRAG);
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container,fragment)
+                .commit();
+    }
+
+    @Override
+    public void onBack() {
         AdventureDetailsFragment fragment = AdventureDetailsFragment.newInstance(mAdventure, AdventureDetailsFragment.PLAYER_FRAG);
         getFragmentManager()
                 .beginTransaction()

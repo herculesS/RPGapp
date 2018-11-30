@@ -13,7 +13,7 @@ import com.rpgapp.devapp.rpgapp.Model.Attack;
 import com.rpgapp.devapp.rpgapp.Model.Roll;
 import com.rpgapp.devapp.rpgapp.R;
 
-public class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.ViewHolder> implements AdventureRequestManager.OnSaveAdventure {
+public class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.ViewHolder> implements AdventureRequestManager.OnSaveAdventure, AdventureRequestManager.ObservesAdventure {
 
     private Adventure mAdventure;
     private int mCharPosition;
@@ -29,7 +29,7 @@ public class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.attack_item, parent, false);
-
+        AdventureRequestManager.watchAdventure(mAdventure.getId(), AttacksAdapter.this);
         return new ViewHolder(view);
     }
 
@@ -66,6 +66,11 @@ public class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.ViewHold
     @Override
     public void onSaved() {
 
+    }
+
+    @Override
+    public void onChangeInAdventure(Adventure ad) {
+        mAdventure = ad;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

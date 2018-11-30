@@ -17,9 +17,11 @@ import com.rpgapp.devapp.rpgapp.Model.Adventure;
 import com.rpgapp.devapp.rpgapp.Model.Session;
 import com.rpgapp.devapp.rpgapp.Model.User;
 import com.rpgapp.devapp.rpgapp.R;
+import com.rpgapp.devapp.rpgapp.Screens.AdventureDetails.AdventureDetailsFragment;
 import com.rpgapp.devapp.rpgapp.Screens.Session.Attacks.AttacksFragment;
+import com.rpgapp.devapp.rpgapp.Utils.BackableFragment;
 
-public class SessionFragment extends Fragment implements SessionManager.ObservesSession, AdventureRequestManager.OnSaveAdventure {
+public class SessionFragment extends Fragment implements SessionManager.ObservesSession, AdventureRequestManager.OnSaveAdventure, BackableFragment, AdventureRequestManager.ObservesAdventure {
     private static final String ADVENTURE = "adventure";
     private static final String POSITION = "position";
 
@@ -36,6 +38,7 @@ public class SessionFragment extends Fragment implements SessionManager.Observes
     private View mCombatOptions;
     private View mAttackButton;
     private boolean mCombatOptionsOpen;
+    private View mView;
 
 
     public SessionFragment() {
@@ -65,6 +68,8 @@ public class SessionFragment extends Fragment implements SessionManager.Observes
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_session, container, false);
+        mView = view;
+        AdventureRequestManager.watchAdventure(mAdventure.getId(),SessionFragment.this);
         mRollsRecyclerView = view.findViewById(R.id.roll_list);
         LinearLayoutManager llm = new LinearLayoutManager(container.getContext());
         llm.setReverseLayout(true);
@@ -88,10 +93,12 @@ public class SessionFragment extends Fragment implements SessionManager.Observes
                 if(!mCombatOptionsOpen) {
                     mCombatOptions.setVisibility(View.VISIBLE);
                     mCombatOptionsOpen = true;
+                    mRollsRecyclerView.animate().alpha(0.4f);
 
                 } else {
                     mCombatOptions.setVisibility(View.GONE);
                     mCombatOptionsOpen = false;
+                    mRollsRecyclerView.animate().alpha(1f);
                 }
             }
         });
@@ -104,6 +111,9 @@ public class SessionFragment extends Fragment implements SessionManager.Observes
                     .replace(R.id.combat_options,mAttacksFragment)
                     .commit();
         }
+
+        SessionManager.getInstance().watchSession(SessionFragment.this,mAdventure,mPosition);
+
         return view;
     }
 
@@ -137,5 +147,19 @@ public class SessionFragment extends Fragment implements SessionManager.Observes
     @Override
     public void onSaved() {
 
+    }
+
+    @Override
+    public void onBack() {
+        AdventureDetailsFragment fragment = AdventureDetailsFragment.newInstance(mAdventure, AdventureDetailsFragment.PROGRESS_FRAG);
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container,fragment)
+                .commit();
+    }
+
+    @Override
+    public void onChangeInAdventure(Adventure ad) {
+        mAdventure = ad;
     }
 }
