@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Screens.AddAttack.AddAttackFragment">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/round_edit_text"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/number_of_dice"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_white_bg"
+            android:gravity="center"
+
+            android:inputType="number"
+            android:text="1" />
+
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="x"
+            android:textColor="#FF0000"
+            android:textSize="20dp" />
+
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text=" d"
+            android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/dice_faces"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_white_bg"
+            android:gravity="center"
+            android:inputType="number"
+            android:text="6" />
+
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="+"
+            android:textColor="#FF0000"
+            android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/bonus"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_white_bg"
+            android:gravity="center"
+            android:inputType="number"
+            android:text="0" />
+
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/attack_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/round_edit_text"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Attack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <ImageView
+        android:id="@+id/roll_btn"
+        android:layout_width="120dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_weight="1"
+        android:src="@drawable/ready_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
+
+</android.support.constraint.ConstraintLayout>

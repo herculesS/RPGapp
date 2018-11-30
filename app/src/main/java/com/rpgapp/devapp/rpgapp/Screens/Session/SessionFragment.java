@@ -18,6 +18,7 @@ import com.rpgapp.devapp.rpgapp.Model.Roll;
 import com.rpgapp.devapp.rpgapp.Model.Session;
 import com.rpgapp.devapp.rpgapp.Model.User;
 import com.rpgapp.devapp.rpgapp.R;
+import com.rpgapp.devapp.rpgapp.Screens.Session.Attacks.AttacksFragment;
 
 public class SessionFragment extends Fragment implements SessionManager.ObservesSession, AdventureRequestManager.OnSaveAdventure {
     private static final String ADVENTURE = "adventure";
@@ -34,6 +35,10 @@ public class SessionFragment extends Fragment implements SessionManager.Observes
     private User mUser;
     private Session mSession;
     private int mPosition;
+    private AttacksFragment mAttacksFragment;
+    private int mCharacterPosition;
+    private View mCombatOptions;
+    private View mAttackButton;
 
 
     public SessionFragment() {
@@ -44,8 +49,8 @@ public class SessionFragment extends Fragment implements SessionManager.Observes
     public static SessionFragment newInstance(Adventure adventure, int position) {
         SessionFragment fragment = new SessionFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ADVENTURE,adventure);
-        args.putInt(POSITION,position);
+        args.putSerializable(ADVENTURE, adventure);
+        args.putInt(POSITION, position);
         fragment.setArguments(args);
         return fragment;
     }
@@ -72,25 +77,32 @@ public class SessionFragment extends Fragment implements SessionManager.Observes
         mRollsRecyclerView.setLayoutManager(llm);
         MainActivity main = (MainActivity) getActivity();
         main.hideActionBtn();
-         mUser = main.getCurrentUser();
-        mRollsAdapter = new RollsAdapter(null,  mUser.getId(), mAdventure, mPosition);
+        mUser = main.getCurrentUser();
+        mRollsAdapter = new RollsAdapter(null, mUser.getId(), mAdventure, mPosition);
         mRollsRecyclerView.setAdapter(mRollsAdapter);
-        mBtnRoll = view.findViewById(R.id.roll_btn);
-        SessionManager.getInstance().watchSession(this,mAdventure,mPosition);
-        mBtnRoll.setOnClickListener(new View.OnClickListener() {
+        mCharacterPosition = mUser.getUserCharacterPosition(mAdventure);
+        mCombatOptions = view.findViewById(R.id.combat_options);
+        mCombatOptions.setVisibility(View.GONE);
+        mAttackButton = view.findViewById(R.id.attack_button);
+
+        view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int numberOfDices = Integer.parseInt(mNumberOfDice.getText().toString().trim());
-                int diceFaces = Integer.parseInt(mDiceFaces.getText().toString().trim());
-                int bonus = Integer.parseInt(mBonus.getText().toString().trim());
-                Roll rl = new Roll(numberOfDices,diceFaces,bonus, mUser.getId());
-                if(mAdventure.getSessions().get(mPosition)!=null) {
-                    mAdventure.getSessions().get(mPosition).addRoll(rl);
-                    AdventureRequestManager.saveAdventure(mAdventure, SessionFragment.this);
+                if(mCombatOptions.getVisibility() == View.GONE) {
+                    mCombatOptions.setVisibility(View.VISIBLE);
+                } else {
+                    mCombatOptions.setVisibility(View.GONE);
                 }
-
             }
         });
+
+        if(mCharacterPosition != -1){
+            mAttacksFragment = AttacksFragment.newInstance(mAdventure, mCharacterPosition, mPosition);
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.combat_options,mAttacksFragment)
+                    .commit();
+        }
         return view;
     }
 
@@ -110,8 +122,8 @@ public class SessionFragment extends Fragment implements SessionManager.Observes
     @Override
     public void OnChangeInSession(Session se) {
         mSession = se;
-        if(mSession.getRolls()!= null) {
-            mRollsRecyclerView.smoothScrollToPosition(mSession.getRolls().size()-1);
+        if (mSession.getRolls() != null) {
+            mRollsRecyclerView.smoothScrollToPosition(mSession.getRolls().size() - 1);
         }
 
     }
